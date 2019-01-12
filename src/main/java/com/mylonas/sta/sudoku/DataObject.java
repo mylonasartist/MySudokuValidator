@@ -1,37 +1,37 @@
-package com.mylonas.sta.sudoku.model;
+package com.mylonas.sta.sudoku;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
-public class DataObject {
+class DataObject {
     private Integer value;
     private int rowIndex;
     private int columnIndex;
 
-    public DataObject(Integer value, int rowIndex, int columnIndex) {
+    DataObject(Integer value, int rowIndex, int columnIndex) {
         this.value = value;
         this.rowIndex = rowIndex;
         this.columnIndex = columnIndex;
     }
 
-    public boolean isEmpty() {
+    boolean isEmpty() {
         return value == null;
     }
 
-    public Integer getValue() {
+    Integer getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    void setValue(Integer value) {
         this.value = value;
     }
 
-    public int getRowIndex() {
+    int getRowIndex() {
         return rowIndex;
     }
 
-    public int getColumnIndex() {
+    int getColumnIndex() {
         return columnIndex;
     }
 
@@ -59,7 +59,7 @@ public class DataObject {
         return value + StringUtils.EMPTY;
     }
 
-    public void clean() {
+    void clean() {
         value = null;
     }
 }

@@ -1,8 +1,5 @@
 package com.mylonas.sta.sudoku;
 
-import com.mylonas.sta.sudoku.model.Grid;
-import com.mylonas.sta.sudoku.validator.ConstraintValidationException;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;

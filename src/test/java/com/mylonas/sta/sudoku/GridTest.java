@@ -1,7 +1,5 @@
 package com.mylonas.sta.sudoku;
 
-import com.mylonas.sta.sudoku.model.Grid;
-import com.mylonas.sta.sudoku.validator.ConstraintValidationException;
 import org.junit.Assert;
 import org.junit.Test;
 

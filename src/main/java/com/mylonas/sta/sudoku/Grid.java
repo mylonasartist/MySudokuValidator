@@ -1,22 +1,16 @@
-package com.mylonas.sta.sudoku.model;
-
-import com.mylonas.sta.sudoku.validator.*;
+package com.mylonas.sta.sudoku;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Grid {
-
-    private static final ConstraintValidator rowValidator = new RowConstraintValidator();
-    private static final ConstraintValidator columnValidator = new ColumnConstraintValidator();
-    private static final ConstraintValidator boxValidator = new BoxConstraintValidator();
+class Grid {
 
     private final List<List<DataObject>> rows;
     private final List<List<DataObject>> columns;
     private final List<List<DataObject>> boxes;
 
-    public Grid(Integer[][] clues) {
+    Grid(Integer[][] clues) {
         rows = new ArrayList<>(9);
         columns = new ArrayList<>(9);
         boxes = new ArrayList<>(9);
@@ -40,12 +34,12 @@ public class Grid {
         return data;
     }
 
-    public boolean validate() throws ConstraintValidationException {
+    boolean validate() throws ConstraintValidationException {
         boolean result = true;
 
-        rowValidator.validate(this);
-        columnValidator.validate(this);
-        boxValidator.validate(this);
+        ValidationHelper.validateRowConstraint(this);
+        ValidationHelper.validateColumnConstraint(this);
+        ValidationHelper.validateBoxConstraint(this);
 
         // find cell to start from.
         DataObject startCell = getNextEmptyCell(0, 0);
@@ -76,13 +70,10 @@ public class Grid {
             }
         }
 
-        DataObject nextCell = getNextEmptyCell(0, 0);
+        DataObject nextCell = getNextEmptyCell(cell.getRowIndex(), cell.getColumnIndex());
         if (nextCell != null) {
             boolean result = fillCellAndValidate(nextCell, 1);
-            if (result) {
-                return result;
-            }
-            else {
+            if (! result) {
                 if (value == 9) {
                     cell.clean();
                     return false;
@@ -91,6 +82,7 @@ public class Grid {
                     return fillCellAndValidate(cell, value + 1);
                 }
             }
+            return result;
         }
         else {
             return true;
@@ -156,15 +148,15 @@ public class Grid {
         }
     }
 
-    public List<List<DataObject>> getBoxes() {
+    List<List<DataObject>> getBoxes() {
         return boxes;
     }
 
-    public List<List<DataObject>> getColumns() {
+    List<List<DataObject>> getColumns() {
         return columns;
     }
 
-    public List<List<DataObject>> getRows() {
+    List<List<DataObject>> getRows() {
         return rows;
     }
 }
