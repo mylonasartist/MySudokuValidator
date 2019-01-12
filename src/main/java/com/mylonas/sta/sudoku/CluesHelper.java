@@ -12,21 +12,23 @@ class CluesHelper {
     private CluesHelper() {
     }
 
-    static Integer[][] getCluesFromCsvFormattedInput(InputStream input)
+    static Integer[] getCluesFromCsvFormattedInput(InputStream input)
             throws IOException, InvalidCluesDefinitionException {
-        Integer[][] clues = new Integer[9][];
+        Integer[] clues = new Integer[81];
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
-            int index = 0;
+            int linesIndex = 0;
             String line = reader.readLine();
             while (line != null) {
                 Integer[] currentRow = getRow(line);
-                clues[index] = currentRow;
-                index++;
+                for (int i = 0; i < currentRow.length; i++) {
+                    clues[9 * linesIndex + i] = currentRow[i];
+                }
+                linesIndex++;
                 line = reader.readLine();
             }
-            if (index != 9) {
+            if (linesIndex != 9) {
                 throw new InvalidCluesDefinitionException("There should be 9 lines in clues definition. " +
-                        "The actual amount is " + index);
+                        "The actual amount is " + linesIndex);
             }
         }
         return clues;

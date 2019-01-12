@@ -100,9 +100,9 @@ public class CluesHelperTest {
     @Test
     public void getCluesFromCsvFormattedInput_validClues() {
         try {
-            Integer[][] clues =
+            Integer[] clues =
                     CluesHelper.getCluesFromCsvFormattedInput(new ByteArrayInputStream(validClues.getBytes()));
-            Assert.assertEquals(Integer.valueOf(1), clues[6][3]);
+            Assert.assertEquals(Integer.valueOf(1), clues[57]);
         } catch (IOException | InvalidCluesDefinitionException e) {
             Assert.fail(e.getMessage());
         }
@@ -111,9 +111,9 @@ public class CluesHelperTest {
     @Test
     public void getCluesFromCsvFormattedInput_validCluesSomeUndefined() {
         try {
-            Integer[][] clues =
+            Integer[] clues =
                     CluesHelper.getCluesFromCsvFormattedInput(new ByteArrayInputStream(validCluesSomeUndefined.getBytes()));
-            Assert.assertEquals(Integer.valueOf(1), clues[6][3]);
+            Assert.assertEquals(Integer.valueOf(1), clues[57]);
         } catch (IOException | InvalidCluesDefinitionException e) {
             Assert.fail(e.getMessage());
         }

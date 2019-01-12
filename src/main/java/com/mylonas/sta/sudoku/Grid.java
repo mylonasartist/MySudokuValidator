@@ -1,7 +1,6 @@
 package com.mylonas.sta.sudoku;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 class Grid {
@@ -10,28 +9,37 @@ class Grid {
     private final List<List<DataObject>> columns;
     private final List<List<DataObject>> boxes;
 
-    Grid(Integer[][] clues) {
+    Grid(Integer[] clues) {
         rows = new ArrayList<>(9);
         columns = new ArrayList<>(9);
         boxes = new ArrayList<>(9);
 
-        DataObject[][] dataObjects = cluesToDataObjects(clues);
-
-        fillRows(dataObjects);
-        fillColumns(dataObjects);
-        fillBoxes(dataObjects);
+        fillData(clues);
     }
 
-    private DataObject[][] cluesToDataObjects(Integer[][] clues) {
-        DataObject[][] data = new DataObject[clues.length][];
-        for (int rowIndex = 0; rowIndex < clues.length; rowIndex++) {
-            data[rowIndex] = new DataObject[clues[rowIndex].length];
-            for (int columnIndex = 0; columnIndex < clues[rowIndex].length; columnIndex++) {
-                data[rowIndex][columnIndex] =
-                        new DataObject(clues[rowIndex][columnIndex], rowIndex, columnIndex);
+    private void fillData(Integer[] clues) {
+        for (int i = 0; i < clues.length; i++) {
+            DataObject dataObject = new DataObject(clues[i], i);
+            if (rows.size() < dataObject.getRowIndex() + 1) {
+                List<DataObject> currentRow = new ArrayList<>(9);
+                rows.add(currentRow);
             }
+            List<DataObject> currentRow = rows.get(dataObject.getRowIndex());
+            currentRow.add(dataObject.getColumnIndex(), dataObject);
+            if (columns.size() < dataObject.getColumnIndex() + 1) {
+                List<DataObject> currentColumn = new ArrayList<>(9);
+                columns.add(currentColumn);
+            }
+            List<DataObject> currentColumn = columns.get(dataObject.getColumnIndex());
+            currentColumn.add(dataObject.getRowIndex(), dataObject);
+            for (int j = 0; j < 9; j++) {
+                List<DataObject> currentBox = new ArrayList<>();
+                boxes.add(currentBox);
+            }
+            List<DataObject> currentBox =
+                    determineBox(dataObject.getRowIndex(), dataObject.getColumnIndex());
+            currentBox.add(dataObject);
         }
-        return data;
     }
 
     boolean validate() throws ConstraintValidationException {
@@ -105,21 +113,6 @@ class Grid {
         return emptyCell;
     }
 
-    private void fillBoxes(DataObject[][] data) {
-        for (int i = 0; i < 9; i++) {
-            List<DataObject> currentBox = new ArrayList<>();
-            boxes.add(currentBox);
-        }
-        for (int rowIndex = 0; rowIndex < data.length; rowIndex++) {
-            DataObject[] currentRow = data[rowIndex];
-            for (int columnIndex = 0; columnIndex < currentRow.length; columnIndex++) {
-                DataObject currentValue = data[rowIndex][columnIndex];
-                List<DataObject> currentBox = determineBox(rowIndex, columnIndex);
-                currentBox.add(currentValue);
-            }
-        }
-    }
-
     private List<DataObject> determineBox(int rowIndex, int columnIndex) {
         List<List<DataObject>> rowBoxes;
         if (rowIndex <= 2) {
@@ -132,20 +125,6 @@ class Grid {
             rowBoxes = boxes.subList(6, 9);
         }
         return rowBoxes.get(columnIndex / 3);
-    }
-
-    private void fillRows(DataObject[][] data) {
-        Arrays.stream(data).forEach(row -> rows.add(Arrays.asList(row)));
-    }
-
-    private void fillColumns(DataObject[][] data) {
-        for (int i = 0; i < 9; i++) {
-            List<DataObject> currentColumn = new ArrayList<>(9);
-            for (DataObject[] currentRow : data) {
-                currentColumn.add(currentRow[i]);
-            }
-            columns.add(currentColumn);
-        }
     }
 
     List<List<DataObject>> getBoxes() {

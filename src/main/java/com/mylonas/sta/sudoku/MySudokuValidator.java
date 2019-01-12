@@ -10,7 +10,7 @@ public class MySudokuValidator {
         int exitStatus;
         if (args.length > 0) {
             try (InputStream input = new FileInputStream(args[0])) {
-                Integer[][] clues = CluesHelper.getCluesFromCsvFormattedInput(input);
+                Integer[] clues = CluesHelper.getCluesFromCsvFormattedInput(input);
                 try {
                     boolean result = new Grid(clues).validate();
                     if (result) {

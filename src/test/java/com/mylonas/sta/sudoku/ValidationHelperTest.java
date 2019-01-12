@@ -12,83 +12,83 @@ public class ValidationHelperTest {
     private static final List<Integer> noDuplicates = Arrays.asList(12, 4, 6, 89, 23, 17, 5, 3);
     private static final List<Integer> duplicates = Arrays.asList(12, 5, 4, 6, 89, 23, 17, 5, 3);
 
-    private static final Integer[][] validRows = new Integer[][] {
-            new Integer[] {1,2,3,4,5,6,7,8,9},
-            new Integer[] {1,2,3,4,5,6,7,8,9},
-            new Integer[] {1,2,3,4,5,6,7,8,9},
-            new Integer[] {1,2,3,4,5,6,7,8,9},
-            new Integer[] {1,2,3,4,5,6,7,8,9},
-            new Integer[] {1,2,3,4,5,6,7,8,9},
-            new Integer[] {1,2,3,4,5,6,7,8,9},
-            new Integer[] {1,2,3,4,5,6,7,8,9},
-            new Integer[] {1,2,3,4,5,6,7,8,9}
+    private static final Integer[] validRows = new Integer[] {
+            1,2,3,4,5,6,7,8,9,
+            1,2,3,4,5,6,7,8,9,
+            1,2,3,4,5,6,7,8,9,
+            1,2,3,4,5,6,7,8,9,
+            1,2,3,4,5,6,7,8,9,
+            1,2,3,4,5,6,7,8,9,
+            1,2,3,4,5,6,7,8,9,
+            1,2,3,4,5,6,7,8,9,
+            1,2,3,4,5,6,7,8,9
     };
 
-    private static final Integer[][] invalidRows = new Integer[][] {
-            new Integer[] {1,2,3,4,5,6,7,8,9},
-            new Integer[] {1,2,3,4,5,6,7,8,9},
-            new Integer[] {1,2,3,4,5,6,2,8,9},
-            new Integer[] {1,2,3,4,5,6,7,8,9},
-            new Integer[] {1,2,3,4,5,6,7,8,9},
-            new Integer[] {1,2,3,4,5,6,7,8,9},
-            new Integer[] {1,2,3,4,5,6,7,8,9},
-            new Integer[] {1,2,3,4,5,6,7,8,9},
-            new Integer[] {1,2,3,4,5,6,7,8,9}
+    private static final Integer[] invalidRows = new Integer[] {
+            1,2,3,4,5,6,7,8,9,
+            1,2,3,4,5,6,7,8,9,
+            1,2,3,4,5,6,2,8,9,
+            1,2,3,4,5,6,7,8,9,
+            1,2,3,4,5,6,7,8,9,
+            1,2,3,4,5,6,7,8,9,
+            1,2,3,4,5,6,7,8,9,
+            1,2,3,4,5,6,7,8,9,
+            1,2,3,4,5,6,7,8,9
     };
 
-    private static final Integer[][] validColumns = new Integer[][] {
-            new Integer[] {1,1,1,1,1,1,1,1,1},
-            new Integer[] {2,2,2,2,2,2,2,2,2},
-            new Integer[] {3,3,3,3,3,3,3,3,3},
-            new Integer[] {4,4,4,4,4,4,4,4,4},
-            new Integer[] {5,5,5,5,5,5,5,5,5},
-            new Integer[] {6,6,6,6,6,6,6,6,6},
-            new Integer[] {7,7,7,7,7,7,7,7,7},
-            new Integer[] {8,8,8,8,8,8,8,8,8},
-            new Integer[] {9,9,9,9,9,9,9,9,9}
+    private static final Integer[] validColumns = new Integer[] {
+            1,1,1,1,1,1,1,1,1,
+            2,2,2,2,2,2,2,2,2,
+            3,3,3,3,3,3,3,3,3,
+            4,4,4,4,4,4,4,4,4,
+            5,5,5,5,5,5,5,5,5,
+            6,6,6,6,6,6,6,6,6,
+            7,7,7,7,7,7,7,7,7,
+            8,8,8,8,8,8,8,8,8,
+            9,9,9,9,9,9,9,9,9
     };
 
-    private static final Integer[][] invalidColumns = new Integer[][] {
-            new Integer[] {1,1,1,1,1,1,1,1,1},
-            new Integer[] {2,2,2,2,2,2,2,2,2},
-            new Integer[] {3,3,3,3,3,3,3,3,3},
-            new Integer[] {4,4,4,4,4,4,4,4,4},
-            new Integer[] {5,5,5,5,5,5,5,5,5},
-            new Integer[] {6,6,6,6,6,6,6,6,6},
-            new Integer[] {7,7,7,7,7,7,3,7,7},
-            new Integer[] {8,8,8,8,8,8,8,8,8},
-            new Integer[] {9,9,9,9,9,9,9,9,9}
+    private static final Integer[] invalidColumns = new Integer[] {
+            1,1,1,1,1,1,1,1,1,
+            2,2,2,2,2,2,2,2,2,
+            3,3,3,3,3,3,3,3,3,
+            4,4,4,4,4,4,4,4,4,
+            5,5,5,5,5,5,5,5,5,
+            6,6,6,6,6,6,6,6,6,
+            7,7,7,7,7,7,3,7,7,
+            8,8,8,8,8,8,8,8,8,
+            9,9,9,9,9,9,9,9,9
     };
 
-    private static final Integer[][] validBoxes = new Integer[][] {
-            new Integer[] {1,2,3,1,2,3,1,2,3},
-            new Integer[] {4,5,6,4,5,6,4,5,6},
-            new Integer[] {7,8,9,7,8,9,7,8,9},
-            new Integer[] {1,2,3,1,2,3,1,2,3},
-            new Integer[] {4,5,6,4,5,6,4,5,6},
-            new Integer[] {7,8,9,7,8,9,7,8,9},
-            new Integer[] {1,2,3,1,2,3,1,2,3},
-            new Integer[] {4,5,6,4,5,6,4,5,6},
-            new Integer[] {7,8,9,7,8,9,7,8,9}
+    private static final Integer[] validBoxes = new Integer[] {
+            1,2,3,1,2,3,1,2,3,
+            4,5,6,4,5,6,4,5,6,
+            7,8,9,7,8,9,7,8,9,
+            1,2,3,1,2,3,1,2,3,
+            4,5,6,4,5,6,4,5,6,
+            7,8,9,7,8,9,7,8,9,
+            1,2,3,1,2,3,1,2,3,
+            4,5,6,4,5,6,4,5,6,
+            7,8,9,7,8,9,7,8,9
     };
 
-    private static final Integer[][] invalidBoxes = new Integer[][] {
-            new Integer[] {1,2,3,1,2,3,1,2,3},
-            new Integer[] {4,5,6,4,5,6,4,5,6},
-            new Integer[] {7,8,9,7,8,9,7,8,9},
-            new Integer[] {1,2,3,1,2,3,1,2,3},
-            new Integer[] {4,5,6,4,5,6,4,5,6},
-            new Integer[] {7,8,9,7,8,9,7,8,9},
-            new Integer[] {1,2,3,1,2,3,1,2,3},
-            new Integer[] {4,5,6,4,5,6,4,1,6},
-            new Integer[] {7,8,9,7,8,9,7,8,9}
+    private static final Integer[] invalidBoxes = new Integer[] {
+            1,2,3,1,2,3,1,2,3,
+            4,5,6,4,5,6,4,5,6,
+            7,8,9,7,8,9,7,8,9,
+            1,2,3,1,2,3,1,2,3,
+            4,5,6,4,5,6,4,5,6,
+            7,8,9,7,8,9,7,8,9,
+            1,2,3,1,2,3,1,2,3,
+            4,5,6,4,5,6,4,1,6,
+            7,8,9,7,8,9,7,8,9
     };
 
     @Test
     public void validateNoDuplicates() {
         try {
             ValidationHelper.validateDuplication(noDuplicates.stream().map(value ->
-                    new DataObject(value, 0, 0)).collect(Collectors.toList()));
+                    new DataObject(value, 0)).collect(Collectors.toList()));
         } catch (ConstraintValidationException e) {
             Assert.fail(e.getMessage());
         }
@@ -98,7 +98,7 @@ public class ValidationHelperTest {
     public void validateDuplicates() {
         try {
             ValidationHelper.validateDuplication(duplicates.stream().map(value ->
-                    new DataObject(value, 0, 0)).collect(Collectors.toList()));
+                    new DataObject(value, 0)).collect(Collectors.toList()));
             Assert.fail("No expected exception");
         } catch (ConstraintValidationException e) {
             // this can be ignored.

@@ -6,13 +6,11 @@ import java.util.Objects;
 
 class DataObject {
     private Integer value;
-    private int rowIndex;
-    private int columnIndex;
+    private int index;
 
-    DataObject(Integer value, int rowIndex, int columnIndex) {
+    DataObject(Integer value, int index) {
         this.value = value;
-        this.rowIndex = rowIndex;
-        this.columnIndex = columnIndex;
+        this.index = index;
     }
 
     boolean isEmpty() {
@@ -28,11 +26,11 @@ class DataObject {
     }
 
     int getRowIndex() {
-        return rowIndex;
+        return index / 9;
     }
 
     int getColumnIndex() {
-        return columnIndex;
+        return index - getRowIndex() * 9;
     }
 
     @Override
