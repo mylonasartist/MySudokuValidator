@@ -17,10 +17,6 @@ class DataObject {
         return value == null;
     }
 
-    Integer getValue() {
-        return value;
-    }
-
     void setValue(Integer value) {
         this.value = value;
     }
@@ -31,6 +27,10 @@ class DataObject {
 
     int getColumnIndex() {
         return index - getRowIndex() * 9;
+    }
+
+    int getPlainIndex() {
+        return index;
     }
 
     @Override

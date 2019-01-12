@@ -10,11 +10,13 @@ class Grid {
     private final List<List<DataObject>> rows;
     private final List<List<DataObject>> columns;
     private final List<List<DataObject>> boxes;
+    private final DataObject[] plainData;
 
     Grid(Integer[] clues) {
         rows = new ArrayList<>(9);
         columns = new ArrayList<>(9);
         boxes = new ArrayList<>(9);
+        plainData = new DataObject[81];
 
         fillData(clues);
     }
@@ -41,6 +43,8 @@ class Grid {
             List<DataObject> currentBox =
                     determineBox(dataObject.getRowIndex(), dataObject.getColumnIndex());
             currentBox.add(dataObject);
+
+            plainData[i] = dataObject;
         }
     }
 
@@ -52,7 +56,7 @@ class Grid {
         ValidationHelper.validateBoxConstraint(this);
 
         // find cell to start from.
-        DataObject startCell = getNextEmptyCell(0, 0);
+        DataObject startCell = getNextEmptyCell(0);
         if (startCell != null) {
             result = fillCellAndValidate(startCell, 1);
         }
@@ -80,7 +84,7 @@ class Grid {
             }
         }
 
-        DataObject nextCell = getNextEmptyCell(0, 0);
+        DataObject nextCell = getNextEmptyCell(cell.getPlainIndex());
         if (nextCell != null) {
             boolean result = fillCellAndValidate(nextCell, 1);
             if (result) {
@@ -101,17 +105,11 @@ class Grid {
         }
     }
 
-    private DataObject getNextEmptyCell(int startRowIndex, int startColumnIndex) {
+    private DataObject getNextEmptyCell(int startIndex) {
         DataObject emptyCell = null;
-        for (int rowIndex = startRowIndex; rowIndex < rows.size(); rowIndex++) {
-            for (int columnIndex = startColumnIndex; columnIndex < columns.size(); columnIndex++) {
-                if (rows.get(rowIndex).get(columnIndex).isEmpty()) {
-                    emptyCell = rows.get(rowIndex).get(columnIndex);
-                    break;
-                }
-            }
-            if (emptyCell != null) {
-                break;
+        for (int i = startIndex; i < plainData.length && emptyCell == null; i++) {
+            if (plainData[i].isEmpty()) {
+                emptyCell = plainData[i];
             }
         }
         return emptyCell;
@@ -143,7 +141,7 @@ class Grid {
         return rows;
     }
 
-    public String toCsvString() {
+    String toCsvString() {
         StringBuilder builder = new StringBuilder();
         rows.forEach(currentRow ->
                 builder.append(StringUtils.join(currentRow, ",")).append(System.lineSeparator()));
