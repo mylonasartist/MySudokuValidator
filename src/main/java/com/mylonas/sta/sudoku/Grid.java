@@ -1,5 +1,7 @@
 package com.mylonas.sta.sudoku;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,13 +27,13 @@ class Grid {
                 rows.add(currentRow);
             }
             List<DataObject> currentRow = rows.get(dataObject.getRowIndex());
-            currentRow.add(dataObject.getColumnIndex(), dataObject);
+            currentRow.add(dataObject);
             if (columns.size() < dataObject.getColumnIndex() + 1) {
                 List<DataObject> currentColumn = new ArrayList<>(9);
                 columns.add(currentColumn);
             }
             List<DataObject> currentColumn = columns.get(dataObject.getColumnIndex());
-            currentColumn.add(dataObject.getRowIndex(), dataObject);
+            currentColumn.add(dataObject);
             for (int j = 0; j < 9; j++) {
                 List<DataObject> currentBox = new ArrayList<>();
                 boxes.add(currentBox);
@@ -78,10 +80,13 @@ class Grid {
             }
         }
 
-        DataObject nextCell = getNextEmptyCell(cell.getRowIndex(), cell.getColumnIndex());
+        DataObject nextCell = getNextEmptyCell(0, 0);
         if (nextCell != null) {
             boolean result = fillCellAndValidate(nextCell, 1);
-            if (! result) {
+            if (result) {
+                return result;
+            }
+            else {
                 if (value == 9) {
                     cell.clean();
                     return false;
@@ -90,7 +95,6 @@ class Grid {
                     return fillCellAndValidate(cell, value + 1);
                 }
             }
-            return result;
         }
         else {
             return true;
@@ -137,5 +141,12 @@ class Grid {
 
     List<List<DataObject>> getRows() {
         return rows;
+    }
+
+    public String toCsvString() {
+        StringBuilder builder = new StringBuilder();
+        rows.forEach(currentRow ->
+                builder.append(StringUtils.join(currentRow, ",")).append(System.lineSeparator()));
+        return builder.toString();
     }
 }
