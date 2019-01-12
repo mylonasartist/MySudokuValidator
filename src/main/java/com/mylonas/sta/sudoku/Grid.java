@@ -16,6 +16,10 @@ class Grid {
         rows = new ArrayList<>(9);
         columns = new ArrayList<>(9);
         boxes = new ArrayList<>(9);
+        for (int j = 0; j < 9; j++) {
+            List<DataObject> currentBox = new ArrayList<>();
+            boxes.add(currentBox);
+        }
         plainData = new DataObject[81];
 
         fillData(clues);
@@ -36,10 +40,6 @@ class Grid {
             }
             List<DataObject> currentColumn = columns.get(dataObject.getColumnIndex());
             currentColumn.add(dataObject);
-            for (int j = 0; j < 9; j++) {
-                List<DataObject> currentBox = new ArrayList<>();
-                boxes.add(currentBox);
-            }
             List<DataObject> currentBox =
                     determineBox(dataObject.getRowIndex(), dataObject.getColumnIndex());
             currentBox.add(dataObject);

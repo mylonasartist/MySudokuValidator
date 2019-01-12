@@ -10,8 +10,17 @@ public class MySudokuValidator {
         int exitStatus;
         if (args.length > 0) {
             try (InputStream input = new FileInputStream(args[0])) {
-                Integer[] clues = CluesHelper.getCluesFromCsvFormattedInput(input);
+                Integer lowerCluesLimit = null;
+                if (args.length > 1) {
+                    try {
+                        lowerCluesLimit = Integer.parseInt(args[1]);
+                    }
+                    catch (NumberFormatException e) {
+                        System.out.println("Couldn't get lower clues number limit from command line parameter: " + args[1]);
+                    }
+                }
                 try {
+                    Integer[] clues = CluesHelper.getCluesFromCsvFormattedInput(input, lowerCluesLimit);
                     Grid grid = new Grid(clues);
                     boolean result = grid.validate();
                     if (result) {
@@ -23,7 +32,13 @@ public class MySudokuValidator {
                         System.out.println("Grid insoluble :(");
                         exitStatus = 1;
                     }
-                } catch (ConstraintValidationException e) {
+                }
+                catch (InsufficientCluesException e) {
+                    System.out.println(e.getMessage() +
+                            ". Please try to configure lower number of clues with 2nd command line parameter.");
+                    exitStatus = 1;
+                }
+                catch (ConstraintValidationException e) {
                     System.out.println("Grid invalid :( " + e.getMessage());
                     exitStatus = 1;
                 }

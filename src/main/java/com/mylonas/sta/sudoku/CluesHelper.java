@@ -6,13 +6,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 class CluesHelper {
+
+    private static final int LOWER_NUMBER_OF_CLUES = 17;
 
     private CluesHelper() {
     }
 
-    static Integer[] getCluesFromCsvFormattedInput(InputStream input)
+    static Integer[] getCluesFromCsvFormattedInput(InputStream input) throws IOException, InvalidCluesDefinitionException {
+        return getCluesFromCsvFormattedInput(input, LOWER_NUMBER_OF_CLUES);
+    }
+
+    static Integer[] getCluesFromCsvFormattedInput(InputStream input, Integer lowerCluesLimit)
             throws IOException, InvalidCluesDefinitionException {
         Integer[] clues = new Integer[81];
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
@@ -30,6 +37,14 @@ class CluesHelper {
                 throw new InvalidCluesDefinitionException("There should be 9 lines in clues definition. " +
                         "The actual amount is " + linesIndex);
             }
+        }
+        long cluesNumber = Arrays.stream(clues).filter(clue -> clue != null).count();
+        if (lowerCluesLimit == null) {
+            lowerCluesLimit = LOWER_NUMBER_OF_CLUES;
+        }
+        if (cluesNumber < lowerCluesLimit) {
+            throw new InsufficientCluesException("The nummber of clues lower then defined: " +
+                    lowerCluesLimit);
         }
         return clues;
     }

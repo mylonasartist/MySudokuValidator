@@ -1,6 +1,15 @@
 # MySudokuValidator
 Quick implementation of validating Sudoku using brute force approach with backtracking.
 
+Example of usage:
+
+`validate.bat SudokuPuzzleExample.txt`
+
+Default lower limit of clues is 17 :)
+But it can be configured with 2nd command line argument, e.g.:
+
+`validate.bat SudokuPuzzleExample16Clues.txt 16`
+
 Requires Java 8 or later.
 
 TODO implement the validation with Exact Cover approach using the following information sources (in order of knowledge extension):
