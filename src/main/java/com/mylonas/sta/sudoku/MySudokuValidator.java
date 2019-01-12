@@ -12,13 +12,15 @@ public class MySudokuValidator {
             try (InputStream input = new FileInputStream(args[0])) {
                 Integer[] clues = CluesHelper.getCluesFromCsvFormattedInput(input);
                 try {
-                    boolean result = new Grid(clues).validate();
+                    Grid grid = new Grid(clues);
+                    boolean result = grid.validate();
                     if (result) {
                         System.out.println("Grid valid :)");
+                        System.out.println(grid.toCsvString());
                         exitStatus = 0;
                     }
                     else {
-                        System.out.println("Grid invalid :(");
+                        System.out.println("Grid insoluble :(");
                         exitStatus = 1;
                     }
                 } catch (ConstraintValidationException e) {
