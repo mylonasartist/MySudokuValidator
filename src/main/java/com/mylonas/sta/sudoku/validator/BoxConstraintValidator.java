@@ -20,8 +20,4 @@ public class BoxConstraintValidator implements ConstraintValidator {
             boxIndex++;
         }
     }
-
-    @Override
-    public void validateCell(int row, int column, Grid grid) throws ConstraintValidationException {
-    }
 }

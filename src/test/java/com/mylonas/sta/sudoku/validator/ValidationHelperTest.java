@@ -16,7 +16,8 @@ public class ValidationHelperTest {
     @Test
     public void validateNoDuplicates() {
         try {
-            ValidationHelper.validateDuplication(noDuplicates.stream().map(DataObject::new).collect(Collectors.toList()));
+            ValidationHelper.validateDuplication(noDuplicates.stream().map(value ->
+                    new DataObject(value, 0, 0)).collect(Collectors.toList()));
         } catch (ConstraintValidationException e) {
             Assert.fail(e.getMessage());
         }
@@ -25,7 +26,8 @@ public class ValidationHelperTest {
     @Test
     public void validateDuplicates() {
         try {
-            ValidationHelper.validateDuplication(duplicates.stream().map(DataObject::new).collect(Collectors.toList()));
+            ValidationHelper.validateDuplication(duplicates.stream().map(value ->
+                    new DataObject(value, 0, 0)).collect(Collectors.toList()));
             Assert.fail("No expected exception");
         } catch (ConstraintValidationException e) {
             // this can be ignored.

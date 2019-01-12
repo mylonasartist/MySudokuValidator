@@ -1,10 +1,6 @@
 package com.mylonas.sta.sudoku.model;
 
-import com.mylonas.sta.sudoku.validator.BoxConstraintValidator;
-import com.mylonas.sta.sudoku.validator.ColumnConstraintValidator;
-import com.mylonas.sta.sudoku.validator.ConstraintValidationException;
-import com.mylonas.sta.sudoku.validator.ConstraintValidator;
-import com.mylonas.sta.sudoku.validator.RowConstraintValidator;
+import com.mylonas.sta.sudoku.validator.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,14 +29,88 @@ public class Grid {
     }
 
     private DataObject[][] cluesToDataObjects(Integer[][] clues) {
-        return Arrays.stream(clues).map(row ->
-                Arrays.stream(row).map(DataObject::new).toArray(DataObject[]::new)).toArray(DataObject[][]::new);
+        DataObject[][] data = new DataObject[clues.length][];
+        for (int rowIndex = 0; rowIndex < clues.length; rowIndex++) {
+            data[rowIndex] = new DataObject[clues[rowIndex].length];
+            for (int columnIndex = 0; columnIndex < clues[rowIndex].length; columnIndex++) {
+                data[rowIndex][columnIndex] =
+                        new DataObject(clues[rowIndex][columnIndex], rowIndex, columnIndex);
+            }
+        }
+        return data;
     }
 
-    public void validate() throws ConstraintValidationException {
+    public boolean validate() throws ConstraintValidationException {
+        boolean result = true;
+
         rowValidator.validate(this);
         columnValidator.validate(this);
         boxValidator.validate(this);
+
+        // find cell to start from.
+        DataObject startCell = getNextEmptyCell(0, 0);
+        if (startCell != null) {
+            result = fillCellAndValidate(startCell, 1);
+        }
+
+        return result;
+    }
+
+    private boolean fillCellAndValidate(DataObject cell, Integer value) {
+        cell.setValue(value);
+        try {
+            List<DataObject> row = rows.get(cell.getRowIndex());
+            ValidationHelper.validateDuplication(row);
+            List<DataObject> column = columns.get(cell.getColumnIndex());
+            ValidationHelper.validateDuplication(column);
+            List<DataObject> box = determineBox(cell.getRowIndex(), cell.getColumnIndex());
+            ValidationHelper.validateDuplication(box);
+        }
+        catch (ConstraintValidationException e) {
+            if (value == 9) {
+                cell.clean();
+                return false;
+            }
+            else {
+                return fillCellAndValidate(cell, value + 1);
+            }
+        }
+
+        DataObject nextCell = getNextEmptyCell(0, 0);
+        if (nextCell != null) {
+            boolean result = fillCellAndValidate(nextCell, 1);
+            if (result) {
+                return result;
+            }
+            else {
+                if (value == 9) {
+                    cell.clean();
+                    return false;
+                }
+                else {
+                    return fillCellAndValidate(cell, value + 1);
+                }
+            }
+        }
+        else {
+            return true;
+        }
+    }
+
+    private DataObject getNextEmptyCell(int startRowIndex, int startColumnIndex) {
+        DataObject emptyCell = null;
+        for (int rowIndex = startRowIndex; rowIndex < rows.size(); rowIndex++) {
+            for (int columnIndex = startColumnIndex; columnIndex < columns.size(); columnIndex++) {
+                if (rows.get(rowIndex).get(columnIndex).isEmpty()) {
+                    emptyCell = rows.get(rowIndex).get(columnIndex);
+                    break;
+                }
+            }
+            if (emptyCell != null) {
+                break;
+            }
+        }
+        return emptyCell;
     }
 
     private void fillBoxes(DataObject[][] data) {

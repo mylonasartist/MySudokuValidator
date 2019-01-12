@@ -1,6 +1,7 @@
 package com.mylonas.sta.sudoku;
 
 import com.mylonas.sta.sudoku.model.Grid;
+import com.mylonas.sta.sudoku.validator.ConstraintValidationException;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -9,14 +10,20 @@ import java.io.InputStream;
 public class MySudokuValidator {
 
     public static void main(String[] args) {
-        /*int exitStatus;
+        int exitStatus;
         if (args.length > 0) {
             try (InputStream input = new FileInputStream(args[0])) {
                 Integer[][] clues = CluesHelper.getCluesFromCsvFormattedInput(input);
                 try {
-                    new Grid(clues).validate();
-                    System.out.println("Grid valid :)");
-                    exitStatus = 0;
+                    boolean result = new Grid(clues).validate();
+                    if (result) {
+                        System.out.println("Grid valid :)");
+                        exitStatus = 0;
+                    }
+                    else {
+                        System.out.println("Grid invalid :(");
+                        exitStatus = 1;
+                    }
                 } catch (ConstraintValidationException e) {
                     System.out.println("Grid invalid :( " + e.getMessage());
                     exitStatus = 1;
@@ -36,6 +43,6 @@ public class MySudokuValidator {
                     "please provide file name as the first command line argument.");
             exitStatus = 1;
         }
-        System.exit(exitStatus);*/
+        System.exit(exitStatus);
     }
 }

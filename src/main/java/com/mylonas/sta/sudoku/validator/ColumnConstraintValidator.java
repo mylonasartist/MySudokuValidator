@@ -21,8 +21,4 @@ public class ColumnConstraintValidator implements ConstraintValidator {
             columnIndex++;
         }
     }
-
-    @Override
-    public void validateCell(int row, int column, Grid grid) throws ConstraintValidationException {
-    }
 }
