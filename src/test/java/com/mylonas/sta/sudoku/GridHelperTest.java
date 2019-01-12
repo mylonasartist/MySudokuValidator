@@ -1,11 +1,7 @@
 package com.mylonas.sta.sudoku;
 
 import com.mylonas.sta.sudoku.model.Grid;
-import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class GridHelperTest {
     private static final Integer[][] rowsAndColumns = new Integer[][] {

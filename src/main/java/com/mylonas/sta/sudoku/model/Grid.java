@@ -9,7 +9,6 @@ import com.mylonas.sta.sudoku.validator.RowConstraintValidator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Grid {
 
@@ -26,9 +25,16 @@ public class Grid {
         columns = new ArrayList<>(9);
         boxes = new ArrayList<>(9);
 
-        fillRows(clues);
-        fillColumns(clues);
-        fillBoxes(clues);
+        DataObject[][] dataObjects = cluesToDataObjects(clues);
+
+        fillRows(dataObjects);
+        fillColumns(dataObjects);
+        fillBoxes(dataObjects);
+    }
+
+    private DataObject[][] cluesToDataObjects(Integer[][] clues) {
+        return Arrays.stream(clues).map(row ->
+                Arrays.stream(row).map(DataObject::new).toArray(DataObject[]::new)).toArray(DataObject[][]::new);
     }
 
     public void validate() throws ConstraintValidationException {
@@ -37,17 +43,17 @@ public class Grid {
         boxValidator.validate(this);
     }
 
-    private void fillBoxes(Integer[][] clues) {
+    private void fillBoxes(DataObject[][] data) {
         for (int i = 0; i < 9; i++) {
             List<DataObject> currentBox = new ArrayList<>();
             boxes.add(currentBox);
         }
-        for (int rowIndex = 0; rowIndex < clues.length; rowIndex++) {
-            Integer[] currentRow = clues[rowIndex];
+        for (int rowIndex = 0; rowIndex < data.length; rowIndex++) {
+            DataObject[] currentRow = data[rowIndex];
             for (int columnIndex = 0; columnIndex < currentRow.length; columnIndex++) {
-                Integer currentValue = clues[rowIndex][columnIndex];
+                DataObject currentValue = data[rowIndex][columnIndex];
                 List<DataObject> currentBox = determineBox(rowIndex, columnIndex);
-                currentBox.add(new DataObject(currentValue));
+                currentBox.add(currentValue);
             }
         }
     }
@@ -66,16 +72,15 @@ public class Grid {
         return rowBoxes.get(columnIndex / 3);
     }
 
-    private void fillRows(Integer[][] clues) {
-        Arrays.stream(clues).forEach(row ->
-                rows.add(Arrays.stream(row).map(DataObject::new).collect(Collectors.toList())));
+    private void fillRows(DataObject[][] data) {
+        Arrays.stream(data).forEach(row -> rows.add(Arrays.asList(row)));
     }
 
-    private void fillColumns(Integer[][] clues) {
+    private void fillColumns(DataObject[][] data) {
         for (int i = 0; i < 9; i++) {
             List<DataObject> currentColumn = new ArrayList<>(9);
-            for (Integer[] currentRow : clues) {
-                currentColumn.add(new DataObject(currentRow[i]));
+            for (DataObject[] currentRow : data) {
+                currentColumn.add(currentRow[i]);
             }
             columns.add(currentColumn);
         }
