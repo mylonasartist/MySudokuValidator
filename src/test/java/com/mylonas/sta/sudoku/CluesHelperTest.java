@@ -123,7 +123,7 @@ public class CluesHelperTest {
     public void getCluesFromCsvFormattedInput_invalidCluesNotANumber() {
         try {
             CluesHelper.getCluesFromCsvFormattedInput(new ByteArrayInputStream(invalidCluesNotANumber.getBytes()));
-            Assert.fail("No exspected exception raised.");
+            Assert.fail("No expected exception raised.");
         } catch (IOException | InvalidCluesDefinitionException e) {
             // can be ignored here
         }
@@ -133,7 +133,7 @@ public class CluesHelperTest {
     public void getCluesFromCsvFormattedInput_invalidCluesWrongCountInRow() {
         try {
             CluesHelper.getCluesFromCsvFormattedInput(new ByteArrayInputStream(invalidCluesWrongCountInRow.getBytes()));
-            Assert.fail("No exspected exception raised.");
+            Assert.fail("No expected exception raised.");
         } catch (IOException | InvalidCluesDefinitionException e) {
             // can be ignored here
         }
@@ -143,7 +143,7 @@ public class CluesHelperTest {
     public void getCluesFromCsvFormattedInput_invalidCluesOutOfRangeGreater() {
         try {
             CluesHelper.getCluesFromCsvFormattedInput(new ByteArrayInputStream(invalidCluesOutOfRangeGreater.getBytes()));
-            Assert.fail("No exspected exception raised.");
+            Assert.fail("No expected exception raised.");
         } catch (IOException | InvalidCluesDefinitionException e) {
             // can be ignored here
         }
@@ -153,7 +153,7 @@ public class CluesHelperTest {
     public void getCluesFromCsvFormattedInput_invalidCluesOutOfRangeLess() {
         try {
             CluesHelper.getCluesFromCsvFormattedInput(new ByteArrayInputStream(invalidCluesOutOfRangeLess.getBytes()));
-            Assert.fail("No exspected exception raised.");
+            Assert.fail("No expected exception raised.");
         } catch (IOException | InvalidCluesDefinitionException e) {
             // can be ignored here
         }
@@ -163,7 +163,7 @@ public class CluesHelperTest {
     public void getCluesFromCsvFormattedInput_invalidCluesMoreRows() {
         try {
             CluesHelper.getCluesFromCsvFormattedInput(new ByteArrayInputStream(invalidCluesMoreRows.getBytes()));
-            Assert.fail("No exspected exception raised.");
+            Assert.fail("No expected exception raised.");
         } catch (IOException | InvalidCluesDefinitionException e) {
             // can be ignored here
         }
@@ -173,7 +173,7 @@ public class CluesHelperTest {
     public void getCluesFromCsvFormattedInput_invalidCluesLessRows() {
         try {
             CluesHelper.getCluesFromCsvFormattedInput(new ByteArrayInputStream(invalidCluesLessRows.getBytes()));
-            Assert.fail("No exspected exception raised.");
+            Assert.fail("No expected exception raised.");
         } catch (IOException | InvalidCluesDefinitionException e) {
             // can be ignored here
         }
@@ -183,7 +183,7 @@ public class CluesHelperTest {
     public void getCluesFromCsvFormattedInput_invalidCluesEmpty() {
         try {
             CluesHelper.getCluesFromCsvFormattedInput(new ByteArrayInputStream(invalidCluesEmpty.getBytes()));
-            Assert.fail("No exspected exception raised.");
+            Assert.fail("No expected exception raised.");
         } catch (IOException | InvalidCluesDefinitionException e) {
             // can be ignored here
         }
