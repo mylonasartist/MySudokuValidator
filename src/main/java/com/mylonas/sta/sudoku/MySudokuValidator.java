@@ -10,15 +10,7 @@ public class MySudokuValidator {
         int exitStatus;
         if (args.length > 0) {
             try (InputStream input = new FileInputStream(args[0])) {
-                Integer lowerCluesLimit = null;
-                if (args.length > 1) {
-                    try {
-                        lowerCluesLimit = Integer.parseInt(args[1]);
-                    }
-                    catch (NumberFormatException e) {
-                        System.out.println("Couldn't get lower clues number limit from command line parameter: " + args[1]);
-                    }
-                }
+                Integer lowerCluesLimit = getLowerCluesLimit(args);
                 try {
                     Integer[] clues = CluesHelper.getCluesFromCsvFormattedInput(input, lowerCluesLimit);
                     Grid grid = new Grid(clues);
@@ -58,5 +50,18 @@ public class MySudokuValidator {
             exitStatus = 1;
         }
         System.exit(exitStatus);
+    }
+
+    private static Integer getLowerCluesLimit(String[] args) {
+        Integer lowerCluesLimit = null;
+        if (args.length > 1) {
+            try {
+                lowerCluesLimit = Integer.parseInt(args[1]);
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Couldn't get lower clues number limit from command line parameter: " + args[1]);
+            }
+        }
+        return lowerCluesLimit;
     }
 }
