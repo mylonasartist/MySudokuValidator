@@ -7,10 +7,14 @@ import java.util.Objects;
 class DataObject {
     private Integer value;
     private int index;
+    private int rowIndex;
+    private int columnIndex;
 
     DataObject(Integer value, int index) {
         this.value = value;
         this.index = index;
+        rowIndex = index / 9;
+        columnIndex = index - getRowIndex() * 9;
     }
 
     boolean isEmpty() {
@@ -22,11 +26,11 @@ class DataObject {
     }
 
     int getRowIndex() {
-        return index / 9;
+        return rowIndex;
     }
 
     int getColumnIndex() {
-        return index - getRowIndex() * 9;
+        return columnIndex;
     }
 
     int getPlainIndex() {
